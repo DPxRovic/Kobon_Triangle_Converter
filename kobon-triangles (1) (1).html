@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Kobon Triangles</title>
+  <link rel="stylesheet" href="style.css">
+
+  
+</head>
+
+<body>
+
+  <h1 style="font-weight: bold;">KOBON TRIANGLE</h1>
+  <div class="sub">
+    Ported from the original random-line generator described in the write-up. The
+    line-count field has no upper limit — push it as high as your browser can handle.
+    At each intersection point, pairs of adjacent segments belonging to different lines
+    are tested for a connecting third segment — if found, that's a Kobon triangle.
+  </div>
+
+  <div class="layout">
+    <div class="panel controls">
+      <div class="field">
+        <label>number of lines</label>
+        <input type="number" id="numLines" min="3" step="1" placeholder="Enter number of lines">
+      </div>
+      <div class="field">
+        <label>b range <span class="val" id="val-brange">(y-spread)</span></label>
+        <input type="number" id="bRange" min="1" step="1" placeholder="Enter Y-Spread">
+      </div>
+      <div class="field">
+        <label>x spacing <span class="val" id="val-xspace">(x-spread)</span></label>
+        <input type="number" id="xSpace" min="1" step="1" placeholder="Enter X-Spacing">
+      </div>
+      <button id="go">generate</button>
+
+      <div class="field" style="margin-top:20px">
+        <label>view <span class="val">(scroll = zoom, drag = pan)</span></label>
+        <button id="resetView" type="button"
+          style="background:#1e2227;color:var(--ink);border:1px solid var(--line);text-transform:none;font-weight:600;">reset
+          view</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-row"><span>lines</span><b id="s-lines">–</b></div>
+        <div class="stat-row"><span>intersections</span><b id="s-inter">–</b></div>
+        <div class="stat-row hi"><span>triangles found</span><b id="s-tri">–</b></div>
+        <div class="stat-row" id="ref-row" style="display:none">
+          <span>best known (n≤21 table)</span><b id="s-ref">–</b>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        The reference table (Clément &amp; Bader, 2007 / Wikipedia) only covers up to 21 lines,
+        so beyond that the comparison row is hidden — there's no published "best known" figure
+        to check against, which is exactly the territory this generator is exploring.
+      </div>
+    </div>
+
+    <div class="panel canvas-wrap">
+      <svg id="svg" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet"
+        shape-rendering="geometricPrecision"></svg>
+      <div class="zoom-hint">scroll/pinch to zoom · drag to pan · reset view button to restore</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
