@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kobon Triangle Lab</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Kobon Triangle Lab</h1>
+    <p>Draw n straight lines and count the triangles that no other line cuts through. Try to beat the best known result.</p>
+  </header>
+
+  <main class="layout">
+    <aside class="panel controls" aria-label="Controls">
+      <div class="field">
+        <label for="numLines">Number of lines</label>
+        <input type="text" id="numLines" inputmode="numeric" autocomplete="off" value="12">
+        <input type="range" id="numRange" min="3" max="100" value="12" aria-label="Number of lines slider">
+        <div class="chips" id="presets">
+          <button type="button" data-n="7">7</button><button type="button" data-n="15">15</button>
+          <button type="button" data-n="21">21</button><button type="button" data-n="50">50</button>
+          <button type="button" data-n="200">200</button><button type="button" data-n="1000">1000</button>
+        </div>
+        <p class="hint" id="nHint" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="check"><input type="checkbox" id="autoSpread" checked> Auto spread</label>
+        <div class="pair">
+          <div><label for="bRange">Y spread</label><input type="text" id="bRange" inputmode="numeric" autocomplete="off" disabled></div>
+          <div><label for="xSpace">X spacing</label><input type="text" id="xSpace" inputmode="numeric" autocomplete="off" disabled></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="seed">Seed</label>
+        <div class="row">
+          <input type="text" id="seed" inputmode="numeric" autocomplete="off" value="1">
+          <button type="button" id="dice" class="ghost" aria-label="Random seed">Random</button>
+        </div>
+        <p class="hint">Same seed and settings always give the same drawing.</p>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="go" class="primary">Generate</button>
+        <button type="button" id="search" class="secondary">Search for best</button>
+      </div>
+      <p class="hint" id="searchStatus" aria-live="polite"></p>
+
+      <div class="field toggles">
+        <label class="check"><input type="checkbox" id="showLines" checked> Show lines</label>
+        <label class="check"><input type="checkbox" id="showTris" checked> Show triangles</label>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="stats" aria-live="polite">
+        <div class="stat"><span>Triangles</span><b id="s-tri">0</b></div>
+        <div class="stat"><span>Upper bound</span><b id="s-bound">0</b></div>
+        <div class="stat"><span>Best known</span><b id="s-ref">n/a</b></div>
+        <div class="stat"><span>Intersections</span><b id="s-inter">0</b></div>
+        <div class="stat"><span>Time</span><b id="s-time">0 ms</b></div>
+        <div class="meter" title="Triangles as a share of the upper bound"><i id="meterFill"></i></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="cv" aria-label="Line arrangement"></canvas>
+        <div class="tools">
+          <button type="button" id="zin" aria-label="Zoom in">+</button>
+          <button type="button" id="zout" aria-label="Zoom out">&minus;</button>
+          <button type="button" id="fit" aria-label="Fit to screen">Fit</button>
+          <button type="button" id="png" aria-label="Download PNG">PNG</button>
+        </div>
+        <div class="busy" id="busy" hidden><span class="spin"></span><em id="busyText">Working…</em></div>
+        <div class="empty" id="empty">Press Generate to draw your first arrangement.</div>
+      </div>
+      <p class="hint foot">Scroll or pinch to zoom, drag to pan. Keys: Enter generates, F fits, +/− zoom.
+        Upper bound is Tamura's limit with the Clément–Bader correction. Best-known values (n ≤ 21) come from Wikipedia.</p>
+
+      <section class="panel props" aria-label="Properties of this arrangement">
+        <h2>Properties of this arrangement</h2>
+        <div id="props"><p class="hint">Generate a drawing to see its properties.</p></div>
+      </section>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <!-- Plain scripts (not ES modules) so the page also works when opened straight from disk. Order matters. -->
+  <script src="js/config.js"></script>
+  <script src="js/worker-core.js"></script>
+  <script src="js/solver.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/properties.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
