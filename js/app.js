@@ -32,6 +32,7 @@ class App {
       x: new NumberField($('xSpace'), 1, CONFIG.MAX_SPREAD, toast), seed: new NumberField($('seed'), 0, CONFIG.MAX_SEED, toast),
     };
     this.bind(); this.syncSpread(); this.generate();
+    this.welcome = new Welcome();
   }
 
   toast(msg) {
@@ -116,6 +117,7 @@ class App {
     $('fit').addEventListener('click', () => r.fit());
     $('png').addEventListener('click', () => r.data ? r.exportPNG() : this.toast('Generate something first.'));
     document.addEventListener('keydown', e => {
+      if (document.body.classList.contains('welcome-open')) return; // the intro owns the keyboard
       const typing = e.target.matches('input[type=text]');
       if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { if (this.mode === 'idle') this.generate(); }
       else if (typing) return;
